@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Invest from "./pages/Invest";
-import Login from "./pages/Login";
+import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Footer from "./components/Footer";
 import DonateProject from "./pages/DonateProject";
@@ -47,8 +47,8 @@ const [refresh, setRefresh] = useState(false);
 
 
          
-          <Route path="/Login" element={<Login isLogged={isLogged} setIsLogged={setIsLogged} />} />
-          <Route path="/Signup" element={<Signup  isLogged={isLogged} setIsLogged={setIsLogged} />} />
+          <Route path="/Signin" element={<Signin isLogged={isLogged} setIsLogged={setIsLogged} />} />
+          <Route path="/Signup" element={<Signup  isLogged={isLogged} />} />
 
           <Route exact path="profile" element={<Profile />}>
             <Route

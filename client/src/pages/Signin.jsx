@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { loginRoute } from "../utils/APIRoutes";
 
-const Login = ({ isLogged, setIsLogged }) => {
+const Signin = ({ isLogged, setIsLogged }) => {
   const navigate = useNavigate();
   const [formDetails, setFormDetails] = useState({
     email: "",
@@ -138,4 +138,4 @@ const Login = ({ isLogged, setIsLogged }) => {
   );
 };
 
-export default Login;
+export default Signin;

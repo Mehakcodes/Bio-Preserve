@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id             String      @id @default(uuid())
+  name      String
+  company_name   String?
+  email          String      @unique
+  mobile_number  String      @unique
+  password       String
+  tokens         Int         @default(0)
+  donations      donations[]
+  projects       projects[]
+  events         events[]    @relation("HostedEvents")
+  attendedEvents events[]    @relation("AttendedEvents")
+  rewards_claimed rewards_claimed[]
+}
+
+model projects {
+  id            Int         @id @default(autoincrement())
+  title         String
+  description   String
+  image_url     String
+  deadline      DateTime
+  Amount_needed Int
+  Amount_raised Int
+  location      String
+  user_id       String
+  user          users       @relation(fields: [user_id], references: [id])
+  donations     donations[]
+}
+
+model events {
+  id          Int      @id @default(autoincrement())
+  title       String
+  location    String
+  description String
+  image_url   String
+  date_posted DateTime @default(now())
+  start       DateTime
+  end         DateTime
+  user_id     String
+  host        users    @relation("HostedEvents", fields: [user_id], references: [id])
+  attendees   users[]  @relation("AttendedEvents")
+}
+
+model donations {
+  id         String   @id @default(uuid())
+  amount     Int
+  user_id    String
+  project_id Int
+  user       users    @relation(fields: [user_id], references: [id])
+  project    projects @relation(fields: [project_id], references: [id])
+}
+
+model rewards {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image_url   String
+  tokens_required Int
+  rewards_claimed rewards_claimed[] 
+}
+
+model rewards_claimed {
+  id         String   @id @default(uuid())
+  user_id    String
+  reward_id Int
+  user       users    @relation(fields: [user_id], references: [id])
+  reward     rewards @relation(fields: [reward_id], references: [id])
+}

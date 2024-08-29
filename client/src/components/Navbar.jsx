@@ -28,6 +28,18 @@ const Navbar = () => {
       path: "/Publish",
       title: "Publish your campaign",
     },
+    {
+      path:"/Signin",
+      title:"Sign in"
+    },
+    {
+      path:"/Signup",
+      title:"Sign up"
+    },
+    {
+      path:"/logout",
+      title:"Logout"
+    }
     // {
     //   path: "/CarbonCoin",
     //   title: "Carbon Offset Tracker",
