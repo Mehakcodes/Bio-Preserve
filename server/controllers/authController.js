@@ -55,4 +55,9 @@ exports.signin=async (req, res)=>{
     catch(e){
         res.status(500).json({status: false, msg: e.message});
     }
-}
+};
+
+exports.signout=(req, res)=>{
+    res.clearCookie('token').status(200).json({status: true, msg: 'Logged out successfully'});
+    
+};

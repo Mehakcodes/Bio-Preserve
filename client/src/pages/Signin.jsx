@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useContext } from "react";
+import UserContext  from "../contexts/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import { BiSolidHide } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,18 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { loginRoute } from "../utils/APIRoutes";
 
-const Signin = ({ isLogged, setIsLogged }) => {
+const Signin = () => {
   const navigate = useNavigate();
+  const {setIsLogged, setUserId} = useContext(UserContext);
   const [formDetails, setFormDetails] = useState({
     email: "",
     password: "",
   });
-  useEffect(() => {
-    if (localStorage.getItem("customer")) {
-      navigate("/");
-    }
-  }, [navigate]);
-
   const changeHandler = (event) => {
     const { name, value } = event.target;
     setFormDetails((prev) => ({
@@ -36,8 +32,8 @@ const Signin = ({ isLogged, setIsLogged }) => {
         if (data.status === false) {
           toast.error(data.msg, toastOptions);
         } else if (data.status === true) {
-          localStorage.setItem("customer", JSON.stringify(data.user.email));
           setIsLogged(true);
+          setUserId(data.user.id);
           navigate("/");
         }
       } catch (error) {
@@ -48,14 +44,11 @@ const Signin = ({ isLogged, setIsLogged }) => {
 
   const handleValidation = () => {
     const { email, password } = formDetails;
-    if (password.length < 8) {
-      toast.error(
-        "Password should be greater than 8 characters.",
-        toastOptions
-      );
-      return false;
-    } else if (email.trim() === "") {
+    if(!email){
       toast.error("Email is required", toastOptions);
+      return false;
+    } else if(!password){
+      toast.error("Password is required", toastOptions);
       return false;
     }
     return true;
@@ -63,10 +56,12 @@ const Signin = ({ isLogged, setIsLogged }) => {
 
   const toastOptions = {
     position: "bottom-right",
-    autoClose: 8000,
+    autoClose: 2000,
     theme: "dark",
+    hideProgressBar: true,
+    closeOnClick: true,
     pauseOnHover: true,
-    draggable: true,
+    draggable: true
   };
 
   return (

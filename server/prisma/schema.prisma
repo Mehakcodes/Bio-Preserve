@@ -34,8 +34,8 @@ model projects {
   description   String
   image_url     String
   deadline      DateTime
-  Amount_needed Int
-  Amount_raised Int
+  amount_needed Int
+  amount_raised Int        @default(0)
   location      String
   user_id       String
   user          users       @relation(fields: [user_id], references: [id])
@@ -78,6 +78,7 @@ model rewards_claimed {
   id         String   @id @default(uuid())
   user_id    String
   reward_id Int
+  date_claimed DateTime @default(now())
   user       users    @relation(fields: [user_id], references: [id])
   reward     rewards @relation(fields: [reward_id], references: [id])
 }
